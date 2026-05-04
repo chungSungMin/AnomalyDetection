@@ -34,7 +34,7 @@ def apply_local_aggregation(feature_map, p=3) :
     
     
 def create_patch_vector(feature_map) : 
-    B, C, H, W = feature_map.shape 
+    _, C, _, _ = feature_map.shape 
     
     permuted_map = feature_map.permute(0, 2, 3, 1)
     patch_vectors = permuted_map.reshape(-1, C)
