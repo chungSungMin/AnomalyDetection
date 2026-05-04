@@ -1,0 +1,6 @@
+{
+    "backbone" : "wide_resnet50_2",
+    "layers" : ["layer2", "layer3"],
+    "patch_size" : 3
+
+}
