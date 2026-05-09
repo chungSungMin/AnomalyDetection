@@ -14,9 +14,6 @@ def bilinear_rescaling(feature_maps) :
         align_corners=False
     )
     
-    print(f"1번 feature map의 사이즈 : {f1_map.shape}")
-    print(f"2번 feature map의 사이즈 : {f2_map_resized.shape}")
-    
     feature_map = torch.concat([f1_map, f2_map_resized], dim=1)
     return feature_map
 
@@ -33,13 +30,16 @@ def apply_local_aggregation(feature_map, p=3) :
     return aggregated_map
     
     
-def create_patch_vector(feature_map) : 
-    _, C, _, _ = feature_map.shape 
+def create_patch_vector(feature_map, is_train) : 
+    B, C, _, _ = feature_map.shape 
     
-    permuted_map = feature_map.permute(0, 2, 3, 1)
-    patch_vectors = permuted_map.reshape(-1, C)
-    
-    return patch_vectors
+    if is_train == "train" : 
+        permuted_map = feature_map.permute(0, 2, 3, 1).reshape(-1, C)    
+        return permuted_map
+    else : 
+        permuted_map = feature_map.permute(0, 2, 3, 1).reshape(B, -1, C)
+        return permuted_map
+        
 
 
 def update_memoery_bank(memory_bank_list, feature_vectors) : 

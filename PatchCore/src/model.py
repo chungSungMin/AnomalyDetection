@@ -37,14 +37,14 @@ def load_config(args):
     return config
 
 
-def get_feature_extractor(backbone: str, layer_list: list) : 
+def get_feature_extractor(backbone: str, layer_list: list, device) : 
     
    try : 
        base_backbone = models.get_model(backbone, weights="DEFAULT")
    except ValueError : 
        raise ValueError(f"Torchvision에서 지원하지 않거나 오타가 존재하는 이름입니다 : {backbone}")
    
-   base_backbone.eval()
+   base_backbone.eval().to(device)
    
    extraction_config = {layer : layer for layer in layer_list}
    
